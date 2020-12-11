@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import { IconButton, List, ListItem, ListItemIcon } from '@material-ui/core';
 import PlayButtonIcon from '@material-ui/icons/PlayArrow';
@@ -16,12 +16,14 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
 
   drawer: {
-    width: drawerWidth,
+    width: theme.spacing(12) + 1,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+    height: '100vh'
   },
   paperDrawer: {
     overflowX: 'hidden',
+    height: '100%',
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(12) + 1,
@@ -33,13 +35,8 @@ const Menu = () => {
   const classes = useStyles();
 
   return (
-    <Drawer
-      variant="permanent"
-      className={classes.drawer, classes.draweClose}
-      classes={{
-        paper: classes.paperDrawer
-      }}
-    >
+    <div className={classes.drawer}>
+      <Paper className={classes.paperDrawer}>
       <List>
         <Grid alignContent="center" >
           <Grid item>
@@ -81,7 +78,8 @@ const Menu = () => {
           </Grid>
         </Grid>
       </List>
-    </Drawer>
+      </Paper>
+    </div>
   );
 }
 

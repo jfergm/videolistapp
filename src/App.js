@@ -1,6 +1,7 @@
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import { CssBaseline, createMuiTheme} from '@material-ui/core/';
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
 import { Switch, Route } from 'react-router-dom';
 
@@ -23,13 +24,17 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     height: '100vh',
-    overflow: 'auto',
   },
-  appBarSpacer: theme.mixins.toolbar,
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
+  menuContainer: {
+    width: theme.spacing(12) + 1
+  },
+  contentContainer: {
+    flex: 1,
+  }
 }));
 
 function App() {
@@ -37,19 +42,25 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Menu />
-      <div className={classes.root}>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-            <Switch>
-              <Route path="/player" component={PlayerPage} />
-              <Route path="/playlists" component={PlaylistsPage} />
-              <Route path="/settings" component={SettingsPage} />
-            </Switch>
-          </Container>
-        </main>
-      </div>
+      <Grid container >
+        <Grid item className={classes.menuContainer}>
+          <Menu />
+        </Grid>
+        <Grid item className={classes.contentContainer}>
+          <div className={classes.root}>
+            <main className={classes.content}>
+              <Container className={classes.container}>
+                <Switch>
+                  <Route path="/player" component={PlayerPage} />
+                  <Route path="/playlists" component={PlaylistsPage} />
+                  <Route path="/settings" component={SettingsPage} />
+                </Switch>
+              </Container>
+            </main>
+         </div>
+        </Grid>
+      </Grid>
+
     </ThemeProvider>
   );
 }
