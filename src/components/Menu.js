@@ -9,6 +9,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
+import { Link } from 'react-router-dom';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +45,7 @@ const Menu = () => {
           <Grid item>
           <Box borderRadius="50%" >
             <ListItem>
-              <IconButton size="medium">
+              <IconButton size="medium" component={Link} to="/player">
                 <PlayButtonIcon fontSize="large" />
               </IconButton>
             </ListItem>
@@ -57,7 +59,7 @@ const Menu = () => {
           <Grid item>
           <Box borderRadius="50%" >
             <ListItem>
-              <IconButton size="medium">
+              <IconButton size="medium" component={Link} to="/playlists">
                 <PlaylistPlayIcon fontSize="large" />
               </IconButton>
             </ListItem>
@@ -71,7 +73,7 @@ const Menu = () => {
           <Grid item>
           <Box borderRadius="50%" >
             <ListItem>
-              <IconButton size="medium">
+              <IconButton size="medium" component={Link} to="/settings">
                 <SettingsIcon fontSize="large" />
               </IconButton>
             </ListItem>
