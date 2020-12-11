@@ -26,8 +26,11 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    paddingLeft: 0,
+    paddingRight: 0,
+    height: '100vh'
   },
   menuContainer: {
     width: theme.spacing(12) + 1

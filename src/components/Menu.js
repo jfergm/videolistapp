@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(12) + 1,
     flexShrink: 0,
     whiteSpace: 'nowrap',
-    height: '100vh'
+    height: '100%'
   },
   paperDrawer: {
     overflowX: 'hidden',
