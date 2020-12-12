@@ -1,47 +1,63 @@
-import { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { Component } from 'react';
 
-const useStyles = makeStyles((theme) => ({
-  YTPlayer: {
-    width: '100%',
-    height: '100%'
-  }
-}));
+import { CurrentVideoContext } from '../providers/CurrentVideoProvider';
 
-const onPlayerReady = (event) => {
-  event.target.setVolume(100);
-  event.target.playVideo();
+const YTPlayerStyle = {
+  width: '95%',
+  height: '100%'
 }
 
+class YTPlayer extends Component {
+  static contextType = CurrentVideoContext;
+  constructor(props) {
+    super(props);
+  }
 
-const YTPlayer = () => {
-  const classes = useStyles();
-
-  const [player, setPlayer] = useState();
-  const [videoId, setVideoId] = useState('-Y-50npRo8k');
-
-  useEffect( () => {
-    if(!player) {
-      setPlayer(new window['YT'].Player('YTPlayer', {
-        videoId,
-        events: {
-          'onReady': onPlayerReady,
+  componentDidMount() {
+    const [currentVideo, setCurrentVideo] = this.context
+    this.player = new window['YT'].Player('YTPlayer', {
+      videoId: currentVideo.videoId,
+      events: {
+        'onStateChange': this.onPlayerStateChange.bind(this),
+        'onReady': (e) => {
+          e.target.playVideo();
+          setCurrentVideo({...currentVideo, playing: true});
         }
-      }));
-    } else {
-      try {
-        player.playVideo();
-      } catch(e) {
-
       }
+    });
+  }
+
+  componentDidUpdate() {
+    const [currentVideo] = this.context;
+
+    if(currentVideo.playing) {
+      this.player.playVideo();
+    } else {
+      this.player.pauseVideo();
     }
-  })
+  }
 
-  return(
-    <div id="YTPlayer" className={classes.YTPlayer}>
-    </div>
+  render() {
+    return (
+      <div id="YTPlayer" style={YTPlayerStyle}></div>
+    );
+  }
 
-  );
+  onPlayerStateChange(event) {
+    const[currentVideo, setCurrentVideo] = this.context;
+    switch (event.data) {
+      case window['YT'].PlayerState.PLAYING:
+        setCurrentVideo({...currentVideo, playing: true})
+        break;
+      case window['YT'].PlayerState.PAUSED:
+        setCurrentVideo({...currentVideo, playing: false})
+        break;
+      case window['YT'].PlayerState.ENDED:
+        console.log('ended ');
+        setCurrentVideo({...currentVideo, playing: false})
+        break;
+    };
+  };
 }
 
 export default YTPlayer;
