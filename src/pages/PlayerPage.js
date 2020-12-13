@@ -1,11 +1,14 @@
+import { useEffect, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import YTPlayer from '../components/YTPlayer';
 import PlayerControls from '../components/PlayerControls';
+import Queue from '../components/Queue';
 
-import { CurrentVideoProvider } from '../providers/CurrentVideoProvider';
+import { QueueContext } from '../providers/QueueProvider';
+import { CurrentVideoContext } from '../providers/CurrentVideoProvider';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,23 +29,22 @@ const useStyles = makeStyles((theme) => ({
 
 const PlayerPage = () => {
   const classes = useStyles();
+  const queueContext = useContext(QueueContext);
 
   return(
-    <CurrentVideoProvider>
       <Grid container className={classes.container} >
         <Grid item className={classes.player}>
-          <YTPlayer />
+          <YTPlayer queueContext = {queueContext}/>
         </Grid>
         <Grid item className={classes.actionsContainer}>
-          <Grid container direction="column" className={classes.container}>
-            <PlayerControls />
-            <Grid item className={classes.list}>
-              list
+            <Grid container direction="column" className={classes.container}>
+              <PlayerControls />
+              <Grid item className={classes.list}>
+                <Queue />
+              </Grid>
             </Grid>
-          </Grid>
         </Grid>
       </Grid>
-    </CurrentVideoProvider>
   );
 }
 

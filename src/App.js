@@ -11,6 +11,9 @@ import PlayerPage from './pages/PlayerPage';
 import PlaylistsPage from './pages/PlaylistsPage';
 import SettingsPage from './pages/SettingsPage';
 
+import { QueueProvider } from './providers/QueueProvider';
+import { CurrentVideoProvider } from './providers/CurrentVideoProvider';
+
 const theme = createMuiTheme({
   palette: {
     type: "dark"
@@ -52,13 +55,17 @@ function App() {
         <Grid item className={classes.contentContainer}>
           <div className={classes.root}>
             <main className={classes.content}>
-              <Container className={classes.container}>
-                <Switch>
-                  <Route path="/player" component={PlayerPage} />
-                  <Route path="/playlists" component={PlaylistsPage} />
-                  <Route path="/settings" component={SettingsPage} />
-                </Switch>
-              </Container>
+              <QueueProvider>
+                <CurrentVideoProvider >
+                  <Container className={classes.container}>
+                    <Switch>
+                      <Route path="/player" component={PlayerPage} />
+                      <Route path="/playlists" component={PlaylistsPage} />
+                      <Route path="/settings" component={SettingsPage} />
+                    </Switch>
+                  </Container>
+                </CurrentVideoProvider >
+              </QueueProvider>
             </main>
          </div>
         </Grid>

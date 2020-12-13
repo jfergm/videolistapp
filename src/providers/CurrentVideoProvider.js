@@ -4,8 +4,7 @@ export const CurrentVideoContext = createContext();
 
 export const CurrentVideoProvider = props => {
   const [currentVideo, setCurrentVideo] = useState({
-    videoId: 'XbCDUiovJNs',
-    playing: false
+
   });
 
   return (
