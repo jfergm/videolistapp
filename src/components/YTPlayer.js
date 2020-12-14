@@ -28,6 +28,7 @@ class YTPlayer extends Component {
         'onStateChange': this.onPlayerStateChange.bind(this),
         'onReady': (e) => {
           e.target.setVolume(0);
+          console.log("readyyyyyyyyyy")
         }
       }
     });
@@ -81,6 +82,11 @@ class YTPlayer extends Component {
     switch (event.data) {
       case window['YT'].PlayerState.PLAYING:
         setCurrentVideo({...currentVideo, playing: true})
+        if(this.player.getCurrentTime() < 1) {
+          if(!currentVideo.hasOwnProperty('title') || !currentVideo.hasOwnProperty('duration')) {
+            this.updateItemInfo();
+          }
+        }
         break;
       case window['YT'].PlayerState.PAUSED:
         setCurrentVideo({...currentVideo, playing: false})
@@ -90,8 +96,6 @@ class YTPlayer extends Component {
         
         
         if(queue.currentIndex < queue.queue.length - 1) {
-          //setCurrentVideo({...queue.queue[queue.currentIndex + 1]})
-          console.log("falta", )
           this.player.loadVideoById({ videoId: queue.queue[queue.currentIndex + 1].videoId})
           setQueue({...queue, currentIndex: queue.currentIndex + 1})
           setCurrentVideo({...queue.queue[queue.currentIndex + 1]})
@@ -101,6 +105,15 @@ class YTPlayer extends Component {
         break;
     };
   };
+
+  updateItemInfo() {
+    const [queue, setQueue] = this.props.queueContext;
+    const item = queue.queue[queue.currentIndex];
+    const videoData = this.player.getVideoData();
+    item.title = videoData.title;
+    item.duration = `${Math.floor(this.player.getDuration() / 60)}:${Math.floor(this.player.getDuration() % 60)}`
+    setQueue({...queue})
+  }
 }
 
 export default YTPlayer;
