@@ -22,9 +22,12 @@ const QueueItem = (props) => {
         </Grid>
       </Grid> 
       <Grid item>
-        <IconButton>
-          <DeleteIcon />
-        </IconButton>
+        {
+          !props.playing &&
+          <IconButton>
+            <DeleteIcon />
+          </IconButton>}
+        
       </Grid>
     </Grid>
     
