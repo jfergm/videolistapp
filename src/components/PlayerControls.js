@@ -11,6 +11,7 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import VolumeDownIcon from '@material-ui/icons/VolumeDown';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import QueueIcon from '@material-ui/icons/Queue';
 
 import { CurrentVideoContext } from '../providers/CurrentVideoProvider';
 
@@ -52,23 +53,26 @@ const PlayerControls = ({ queueContext }) => {
 
   return(
     <Grid item className={classes.controls}>
-      <Grid container justify="center" spacing={3}>
+      <Grid container justify="space-between">
         <Grid item>
-          <IconButton size="medium" className={classes.controlsButton} onClick={handlePrevious}>
-            <SkipPreviousIcon fontSize="large" color="secondary" />
-          </IconButton>
-        </Grid>
-        <Grid item m={1}>
-          <IconButton size="medium" className={classes.controlsButton} onClick={ () => setCurrentVideo({...currentVideo, playing: !currentVideo.playing})}>
-            { currentVideo.playing && (<PauseIcon fontSize="large" color="secondary"/>)}
-            { !currentVideo.playing && (<PlayIcon fontSize="large" color="secondary" />)}
-
-            
+          <IconButton className={classes.controlsButton} onClick={handlePrevious}>
+            <SkipPreviousIcon color="secondary" />
           </IconButton>
         </Grid>
         <Grid item>
-          <IconButton size="medium" className={classes.controlsButton} onClick={handleNext}>
-            <SkipNextIcon fontSize="large" color="secondary" />
+          <IconButton className={classes.controlsButton} onClick={ () => setCurrentVideo({...currentVideo, playing: !currentVideo.playing})}>
+            { currentVideo.playing && (<PauseIcon color="secondary"/>)}
+            { !currentVideo.playing && (<PlayIcon color="secondary" />)}
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <IconButton className={classes.controlsButton} onClick={handleNext}>
+            <SkipNextIcon color="secondary" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <IconButton className={classes.controlsButton}>
+            <QueueIcon color="secondary"/>
           </IconButton>
         </Grid>
       </Grid>
