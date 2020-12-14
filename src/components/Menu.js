@@ -38,7 +38,7 @@ const Menu = () => {
     <div className={classes.drawer}>
       <Paper className={classes.paperDrawer}>
       <List>
-        <Grid alignContent="center" >
+        <Grid container alignContent="center" >
           <Grid item>
           <Box borderRadius="50%" >
             <ListItem>
@@ -52,7 +52,7 @@ const Menu = () => {
       </List>
       <Divider />
       <List>
-        <Grid alignContent="center" >
+        <Grid container alignContent="center" >
           <Grid item>
           <Box borderRadius="50%" >
             <ListItem>
@@ -66,7 +66,7 @@ const Menu = () => {
       </List>
       <Divider />
       <List>
-        <Grid alignContent="center" >
+        <Grid container alignContent="center" >
           <Grid item>
           <Box borderRadius="50%" >
             <ListItem>

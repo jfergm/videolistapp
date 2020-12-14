@@ -17,11 +17,11 @@ const QueueItem = (props) => {
             <Typography variant="h6" color="secondary">{props.item?.title}</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="subtitle">{props.item?.duration}</Typography>
+            <Typography variant="subtitle1">{props.item?.duration}</Typography>
           </Grid>
         </Grid>
       </Grid> 
-      <Grid Item>
+      <Grid item>
         <IconButton>
           <DeleteIcon />
         </IconButton>

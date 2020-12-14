@@ -15,7 +15,7 @@ const Queue = () => {
       {
         queue.queue.map( (item, i) => {
           return(
-            <div>
+            <div key={i}>
               <QueueItem item={item} playing={i == queue.currentIndex }/>
               <Divider />
             </div>
