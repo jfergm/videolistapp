@@ -19,7 +19,6 @@ class YTPlayer extends Component {
     let videoId = null;
     if(queue.queue) {
       setQueue({...queue, currentIndex: 0});
-      setCurrentVideo({...queue.queue[0]});
       videoId = queue.queue[0].videoId;
     }
     this.player = new window['YT'].Player('YTPlayer', {
@@ -28,45 +27,28 @@ class YTPlayer extends Component {
         'onStateChange': this.onPlayerStateChange.bind(this),
         'onReady': (e) => {
           e.target.setVolume(0);
-          console.log("readyyyyyyyyyy")
+          setCurrentVideo({...queue.queue[0]});
         }
       }
     });
   }
 
   componentDidUpdate() {
-    const [currentVideo, setCurrentVideo] = this.context;
+    const [currentVideo] = this.context;
 
     if(currentVideo.hasOwnProperty('videoId')) {
-      if(currentVideo.hasOwnProperty('playing')) {
+      if(currentVideo.hasOwnProperty('playing') ) {
         if(currentVideo.playing) {
           this.player.playVideo()
         } else {
           this.player.pauseVideo();
         }
-      }
-    }
-    /*try {
-      if(currentVideo.hasOwnProperty('videoId')) {
-        console.log("videoId", currentVideo.hasOwnProperty('videoId'))
-        if(currentVideo.hasOwnProperty('playing')) {
-          console.log("playing", currentVideo.hasOwnProperty('playing'))
-          
-          if(currentVideo.playing) {
-            this.player.playVideo();
-          } else {
-            this.player.pauseVideo();
-          }
-        } else {
-          console.log("playing", currentVideo.hasOwnProperty('playing'), this.player)
-          this.player.loadVideoById({videoId: currentVideo.videoId})
-          setCurrentVideo({...currentVideo, playing: true})
+      } else {
+        if(this.player.hasOwnProperty('loadVideoById')) {
+          this.loadAndPlay();
         }
       }
-    } catch(e) {
-
-    }*/
-
+    }
   }
 
   render() {
@@ -91,17 +73,15 @@ class YTPlayer extends Component {
       case window['YT'].PlayerState.PAUSED:
         setCurrentVideo({...currentVideo, playing: false})
         break;
-      case window['YT'].PlayerState.ENDED:
-        console.log('ended ');
-        
+      case window['YT'].PlayerState.ENDED:        
         
         if(queue.currentIndex < queue.queue.length - 1) {
-          this.player.loadVideoById({ videoId: queue.queue[queue.currentIndex + 1].videoId})
           setQueue({...queue, currentIndex: queue.currentIndex + 1})
           setCurrentVideo({...queue.queue[queue.currentIndex + 1]})
         }
         break;
       case window['YT'].PlayerState.CUED:
+        this.player.playVideo();
         break;
     };
   };
@@ -113,6 +93,11 @@ class YTPlayer extends Component {
     item.title = videoData.title;
     item.duration = `${Math.floor(this.player.getDuration() / 60)}:${Math.floor(this.player.getDuration() % 60)}`
     setQueue({...queue})
+  }
+
+  loadAndPlay() {
+    const [ currentVideo ] = this.context;
+    this.player.cueVideoById({videoId: currentVideo.videoId});
   }
 }
 

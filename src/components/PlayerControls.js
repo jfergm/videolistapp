@@ -26,15 +26,35 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const PlayerControls = () => {
+const PlayerControls = ({ queueContext }) => {
   const classes = useStyles();
   const [currentVideo, setCurrentVideo] = useContext(CurrentVideoContext);
+
+  const handleNext = () => {
+    const [queue, setQueue ] = queueContext;
+    const currentIndex = queue.currentIndex;
+
+    if(currentIndex < queue.queue.length - 1) {
+      setQueue({ ...queue, currentIndex: currentIndex + 1})
+      setCurrentVideo({...queue.queue[currentIndex + 1]})
+    }
+  }
+
+  const handlePrevious = () => {
+    const [queue, setQueue ] = queueContext;
+    const currentIndex = queue.currentIndex;
+
+    if(currentIndex > 0) {
+      setQueue({ ...queue, currentIndex: currentIndex - 1})
+      setCurrentVideo({...queue.queue[currentIndex - 1]})
+    }
+  }
 
   return(
     <Grid item className={classes.controls}>
       <Grid container justify="center" spacing={3}>
         <Grid item>
-          <IconButton size="medium" className={classes.controlsButton}>
+          <IconButton size="medium" className={classes.controlsButton} onClick={handlePrevious}>
             <SkipPreviousIcon fontSize="large" color="secondary" />
           </IconButton>
         </Grid>
@@ -47,7 +67,7 @@ const PlayerControls = () => {
           </IconButton>
         </Grid>
         <Grid item>
-          <IconButton size="medium" className={classes.controlsButton}>
+          <IconButton size="medium" className={classes.controlsButton} onClick={handleNext}>
             <SkipNextIcon fontSize="large" color="secondary" />
           </IconButton>
         </Grid>

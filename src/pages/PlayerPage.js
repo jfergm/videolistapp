@@ -38,7 +38,7 @@ const PlayerPage = () => {
         </Grid>
         <Grid item className={classes.actionsContainer}>
             <Grid container direction="column" className={classes.container}>
-              <PlayerControls />
+              <PlayerControls queueContext = {queueContext} />
               <Grid item className={classes.list}>
                 <Queue />
               </Grid>
