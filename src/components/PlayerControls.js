@@ -1,16 +1,17 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
-import { IconButton, Slider } from '@material-ui/core';
+import { IconButton, Button } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 
 import PlayIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import VolumeDownIcon from '@material-ui/icons/VolumeDown';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+
 import QueueIcon from '@material-ui/icons/Queue';
 
 import { CurrentVideoContext } from '../providers/CurrentVideoProvider';
@@ -30,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
 const PlayerControls = ({ queueContext }) => {
   const classes = useStyles();
   const [currentVideo, setCurrentVideo] = useContext(CurrentVideoContext);
+  const [open, setOpen] = useState(false);
+  const [videoIdToQueue, setvideIdToQueue] = useState('');
 
   const handleNext = () => {
     const [queue, setQueue ] = queueContext;
@@ -51,6 +54,22 @@ const PlayerControls = ({ queueContext }) => {
     }
   }
 
+  const handleAddToQueue = () => {
+    const [queue, setQueue ] = queueContext;
+    queue.queue.push({videoId: videoIdToQueue});
+    setQueue({...queue});
+    handleClose();
+  }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setvideIdToQueue('');
+  };
+
   return(
     <Grid item className={classes.controls}>
       <Grid container justify="space-between">
@@ -71,21 +90,36 @@ const PlayerControls = ({ queueContext }) => {
           </IconButton>
         </Grid>
         <Grid item>
-          <IconButton className={classes.controlsButton}>
+          <IconButton className={classes.controlsButton} onClick={handleClickOpen}>
             <QueueIcon color="secondary"/>
           </IconButton>
         </Grid>
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item>
-          <VolumeDownIcon color="secondary" />
-        </Grid>
-        <Grid item xs>
-          <Slider color="secondary" aria-labelledby="continuous-slider" />
-        </Grid>
-        <Grid item>
-          <VolumeUpIcon color="secondary" />
-        </Grid>
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Add new item
+            </DialogContentText>
+            <TextField
+              color="secondary"
+              autoFocus
+              margin="dense"
+              id="name"
+              label="video id"
+              type="text"
+              value={videoIdToQueue}
+              onChange={ (e) => setvideIdToQueue(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="secondary">
+              Cancel
+            </Button>
+            <Button onClick={handleAddToQueue} color="secondary">
+              Add
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Grid>
     </Grid>
   );
