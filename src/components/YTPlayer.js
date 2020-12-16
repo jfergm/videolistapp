@@ -37,7 +37,7 @@ class YTPlayer extends Component {
     const [currentVideo] = this.context;
 
     if(currentVideo.hasOwnProperty('videoId')) {
-      if(currentVideo.hasOwnProperty('playing') ) {
+      if(currentVideo.hasOwnProperty('playing') && this.player.hasOwnProperty('playVideo')) {
         if(currentVideo.playing) {
           this.player.playVideo()
         } else {

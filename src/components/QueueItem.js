@@ -1,11 +1,32 @@
+import { useContext } from 'react';
+
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from  '@material-ui/core/IconButton';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import PlayingIcon from '@material-ui/icons/PlayArrow';
+import { QueueContext } from '../providers/QueueProvider';
 
 const QueueItem = (props) => {
+  const [queue, setQueue] = useContext(QueueContext);
+
+  const handleDelete = () => {
+    const newQueue = queue.queue.reduce( (acc, curr, index) => {
+      if(index != props.index) {
+        acc.push(curr);
+      }
+      return acc;
+    }, []);
+
+    let newCurrentIndex = queue.currentIndex;
+
+    if(queue.currentIndex > props.index) {
+      newCurrentIndex = props.index - 1
+    }
+    setQueue({queue: [...newQueue], currentIndex: newCurrentIndex});
+  }
+
   return (
     <Grid container p={2} alignItems="center" justify="space-between">
       <Grid item>
@@ -24,10 +45,10 @@ const QueueItem = (props) => {
       <Grid item>
         {
           !props.playing &&
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <DeleteIcon />
-          </IconButton>}
-        
+          </IconButton>
+        }
       </Grid>
     </Grid>
     
