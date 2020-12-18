@@ -6,11 +6,15 @@ import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import { SocketProvider } from './providers/SocketProvider';
+
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <SocketProvider>
+      <Router>
+        <App />
+      </Router>
+    </SocketProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
