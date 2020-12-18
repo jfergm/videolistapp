@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
     height: '100%'
   },
   player: {
-    width: '75%'
+    width: '72%',
+    height: 'auto',
   },
   actionsContainer: {
     flex: 1
@@ -38,7 +39,9 @@ const PlayerPage = () => {
         </Grid>
         <Grid item className={classes.actionsContainer}>
             <Grid container direction="column" className={classes.container}>
-              <PlayerControls queueContext = {queueContext} />
+              <Grid item>
+                <PlayerControls queueContext = {queueContext} />
+              </Grid>
               <Grid item className={classes.list}>
                 <Queue />
               </Grid>
