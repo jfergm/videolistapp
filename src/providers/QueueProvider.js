@@ -4,16 +4,9 @@ export const QueueContext = createContext();
 
 export const QueueProvider = props => {
   const [queue, setQueue] = useState({
-    queue: [
-      {
-        videoId: 'XbCDUiovJNs',
-      },
-      {
-        videoId: '0ITLTAyrP10',
-      },
-      {videoId: 'Yyfmf-NEZbI'}
-    ],
-    currentIndex: null
+    queue: [],
+    currentIndex: null,
+    ended: true,
   });
 
   return (
