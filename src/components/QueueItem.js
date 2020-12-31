@@ -28,22 +28,17 @@ const useStyles = makeStyles((theme) => ({
 const QueueItem = (props) => {
   const classes = useStyles();
 
-  const [queue, setQueue] = useContext(QueueContext);
+  const {queue, setCurrentIndex, removeFromList} = useContext(QueueContext);
 
   const handleDelete = () => {
-    const newQueue = queue.queue.reduce( (acc, curr, index) => {
-      if(index != props.index) {
-        acc.push(curr);
-      }
-      return acc;
-    }, []);
-
     let newCurrentIndex = queue.currentIndex;
 
     if(queue.currentIndex > props.index) {
-      newCurrentIndex = props.index - 1
+      newCurrentIndex =newCurrentIndex - 1
     }
-    setQueue({queue: [...newQueue], currentIndex: newCurrentIndex});
+    console.log("delete: index:new:curr", props.index, newCurrentIndex, queue.currentIndex)
+    removeFromList(props.index);
+    setCurrentIndex(newCurrentIndex);
   }
 
   return (

@@ -15,10 +15,11 @@ class YTPlayer extends Component {
 
   componentDidMount() {
     const [currentVideo, setCurrentVideo] = this.context;
-    const [queue, setQueue] = this.props.queueContext;
+    const {queue, setCurrentIndex, setEnded} = this.props.queueContext;
     let videoId = null;
     if(queue.queue.length ) {
-      setQueue({...queue, currentIndex: 0, ended: false});
+      setCurrentIndex(0);
+      setEnded(false);
       videoId = queue.queue[0].videoId;
     }
     this.player = new window['YT'].Player('YTPlayer', {
@@ -35,15 +36,12 @@ class YTPlayer extends Component {
 
   componentDidUpdate() {
     const [currentVideo, setCurrentVideo] = this.context;
-    const [queue, setQueue] = this.props.queueContext;
+    const { queue, setCurrentIndex, setEnded } = this.props.queueContext;
     console.log("-->", queue)
     if(queue.ended && ((queue.currentIndex === null && queue.queue.length === 1) || queue.currentIndex < queue.queue.length - 1)) {
       console.log("<--")
-      setQueue({
-        ...queue,
-        currentIndex: queue.queue.length - 1,
-        ended: false
-      })
+      setCurrentIndex(queue.queue.length - 1);
+      setEnded(false);
       setCurrentVideo({...queue.queue[queue.queue.length - 1]});
     }
 
@@ -69,9 +67,8 @@ class YTPlayer extends Component {
   }
 
   onPlayerStateChange(event) {
-   // console.log(event);
     const[currentVideo, setCurrentVideo] = this.context;
-    const[queue, setQueue] = this.props.queueContext;
+    const { queue, setCurrentIndex, setEnded } = this.props.queueContext;
     switch (event.data) {
       case window['YT'].PlayerState.PLAYING:
         setCurrentVideo({...currentVideo, playing: true})
@@ -87,13 +84,10 @@ class YTPlayer extends Component {
       case window['YT'].PlayerState.ENDED:        
         
         if(queue.currentIndex < queue.queue.length - 1) {
-          setQueue({...queue, currentIndex: queue.currentIndex + 1})
+          setCurrentIndex(queue.currentIndex + 1)
           setCurrentVideo({...queue.queue[queue.currentIndex + 1]})
         } else if(queue.currentIndex === queue.queue.length - 1) {
-          setQueue({
-            ...queue,
-            ended: true
-          })
+          setEnded(true)
           setCurrentVideo({...currentVideo, playing: false})
         }
         break;
@@ -104,12 +98,9 @@ class YTPlayer extends Component {
   };
 
   updateItemInfo() {
-    const [queue, setQueue] = this.props.queueContext;
-    const item = queue.queue[queue.currentIndex];
+    const {queue, setCurrentVideoInfo} = this.props.queueContext;
     const videoData = this.player.getVideoData();
-    item.title = videoData.title;
-    item.duration = `${Math.floor(this.player.getDuration() / 60)}:${Math.floor(this.player.getDuration() % 60)}`
-    setQueue({...queue})
+    setCurrentVideoInfo(videoData, this.player.getDuration())
   }
 
   loadAndPlay() {

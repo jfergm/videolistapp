@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Queue = () => {
   const classes = useStyles();
-  const [queue, setQueue] = useContext(QueueContext);
+  const { queue } = useContext(QueueContext);
   console.log(queue, "queuecomp")
   return(
     <Grid container>
       {
         queue.queue.map( (item, i) => {
           return(
-            <Grid item key={i} className="xd" className={classes.fullWidth}>
+            <Grid item key={i} className={classes.fullWidth}>
               <QueueItem item={item} index={i} playing={i == queue.currentIndex }/>
             </Grid>
           )

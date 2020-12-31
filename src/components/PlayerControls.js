@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -35,29 +35,28 @@ const PlayerControls = ({ queueContext }) => {
   const [videoIdToQueue, setvideIdToQueue] = useState('');
 
   const handleNext = () => {
-    const [queue, setQueue ] = queueContext;
+    const { queue, setCurrentIndex } = queueContext;
     const currentIndex = queue.currentIndex;
 
     if(currentIndex < queue.queue.length - 1) {
-      setQueue({ ...queue, currentIndex: currentIndex + 1})
+      setCurrentIndex(currentIndex + 1);
       setCurrentVideo({...queue.queue[currentIndex + 1]})
     }
   }
 
   const handlePrevious = () => {
-    const [queue, setQueue ] = queueContext;
+    const { queue, setCurrentIndex } = queueContext;
     const currentIndex = queue.currentIndex;
 
     if(currentIndex > 0) {
-      setQueue({ ...queue, currentIndex: currentIndex - 1})
+      setCurrentIndex(currentIndex - 1);
       setCurrentVideo({...queue.queue[currentIndex - 1]})
     }
   }
 
   const handleAddToQueue = () => {
-    const [queue, setQueue ] = queueContext;
-    queue.queue.push({videoId: videoIdToQueue});
-    setQueue({...queue});
+    const { addToList } = queueContext;
+    addToList(videoIdToQueue);
     handleClose();
   }
 
