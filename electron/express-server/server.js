@@ -19,6 +19,21 @@ const io = socketio(httpServer, {
 });
 
 io.on('connection', (socket) => {
-  console.log("connected xd")
-  io.emit('message', 'EGEbv7syF7M')
+  socket.on('init-queue', () => {
+    console.log('init queue')
+    io.emit('get-queue');
+  });
+
+  socket.on('queue-changes', data => {
+    io.emit('queue-changed', data)
+  });
+
+  socket.on('send-queue', queue => {
+    io.emit('start-queue', queue);
+  });
+
+  socket.on('send-video-id', link => {
+    io.emit('send-vide-to-player', link)
+  });
 });
+
