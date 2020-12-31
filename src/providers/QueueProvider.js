@@ -10,21 +10,27 @@ class QueueProvider extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      queue: [{
-        videoId: 'i1-y2sWp6Y8'
-      }],
+      queue: [],
       currentIndex: null,
       ended: true
     }
   }
 
   addToList(videoId) {
+    const [socket] = this.context;
+    const queue = this.state.queue.concat([{videoId}]);
     this.setState({
-      queue: this.state.queue.concat([{videoId}])
+      queue
     });
+
+    socket.emit('queue-changes', {
+      type: 'addToList',
+      payload: queue
+    })
   }
 
   removeFromList(removeIndex) {
+    const[ socket ] = this.context;
     const queue = this.state.queue.reduce((acc, curr, index) => {
       if(index !== removeIndex) {
         acc.push(curr);
@@ -34,21 +40,39 @@ class QueueProvider extends Component {
     this.setState({
       queue
     });
+
+    socket.emit('queue-changes', {
+      type: 'removeFromList',
+      payload: queue
+    })
   }
 
   setCurrentIndex(currentIndex) {
+    const [ socket ] = this.context;
     this.setState({
       currentIndex
     });
+
+    socket.emit('queue-changes', {
+      type: 'currentIndex',
+      payload: currentIndex
+    })
   }
 
   setEnded(ended) {
+    const [ socket ] = this.context;
     this.setState({
       ended 
+    });
+
+    socket.emit('queue-changes', {
+      type: 'ended',
+      payload: ended
     });
   }
 
   setCurrentVideoInfo(info, duration) {
+    const [ socket ] = this.context;
     const queue = [...this.state.queue]
     const item = this.state.queue[this.state.currentIndex];
     item.title = info.title;
@@ -57,26 +81,32 @@ class QueueProvider extends Component {
     this.setState({
       queue
     })
+
+    socket.emit('queue-changes', {
+      type: 'currentVideoInfo',
+      payload: queue
+    });
   }
 
   componentDidMount() {
     const [socket] = this.context;
     socket.on('message', message => {
-      console.log(message)
     });
 
-    socket.on('start-queue', queue => {
-      this.setState(queue)
-    });
-
-    socket.on('sendVideoIdToPlayer', videoId => {
+    socket.on('send-vide-to-player', videoId => {
       this.addToList(videoId);
+    })
+
+    socket.on('get-queue', () => {
+      console.log('get-queu')
+      socket.emit('send-queue', this.state)
     })
   }
 
   componentDidUpdate() {
-    console.log(this.state)
+
   }
+
 
   render() {
     return (
