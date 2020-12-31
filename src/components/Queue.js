@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 const Queue = () => {
   const classes = useStyles();
   const { queue } = useContext(QueueContext);
-  console.log(queue, "queuecomp")
   return(
     <Grid container>
       {

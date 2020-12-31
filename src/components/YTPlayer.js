@@ -37,9 +37,7 @@ class YTPlayer extends Component {
   componentDidUpdate() {
     const [currentVideo, setCurrentVideo] = this.context;
     const { queue, setCurrentIndex, setEnded } = this.props.queueContext;
-    console.log("-->", queue)
     if(queue.ended && ((queue.currentIndex === null && queue.queue.length === 1) || queue.currentIndex < queue.queue.length - 1)) {
-      console.log("<--")
       setCurrentIndex(queue.queue.length - 1);
       setEnded(false);
       setCurrentVideo({...queue.queue[queue.queue.length - 1]});

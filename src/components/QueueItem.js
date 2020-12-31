@@ -36,7 +36,6 @@ const QueueItem = (props) => {
     if(queue.currentIndex > props.index) {
       newCurrentIndex =newCurrentIndex - 1
     }
-    console.log("delete: index:new:curr", props.index, newCurrentIndex, queue.currentIndex)
     removeFromList(props.index);
     setCurrentIndex(newCurrentIndex);
   }
