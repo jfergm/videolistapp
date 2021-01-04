@@ -6,9 +6,11 @@ import { ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/co
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import { QueueContext } from '../providers/QueueProvider';
+import { CurrentVideoContext } from '../providers/CurrentVideoProvider';
 
 const QueueItem = (props) => {
   const {queue, setCurrentIndex, removeFromList} = useContext(QueueContext);
+  const [ currentVideo, setCurrentVideo ] = useContext(CurrentVideoContext);
 
   const handleDelete = () => {
     let newCurrentIndex = queue.currentIndex;
@@ -20,14 +22,20 @@ const QueueItem = (props) => {
     setCurrentIndex(newCurrentIndex);
   }
 
+  const handleItemClick = () => {
+    if(props.playing || props.index < 0 || props.index > queue.queue.length - 1) return
+    setCurrentIndex(props.index);
+    setCurrentVideo({...queue.queue[props.index]})
+  }
+
   return (
     <>
      {props.index > 0 && <Divider />}
-    <ListItem button>
+    <ListItem button onClick={ handleItemClick }>
       <ListItemText
         primary={ props.item.title ? props.item.title : ' - '}
         secondary={props.item.duration ? props.item.duration : ' - '}
-        primaryTypographyProps={{color: props.playing ? 'secondary' : 'white'}}
+        primaryTypographyProps={{color: props.playing ? 'secondary' : 'textPrimary'}}
       />
       <ListItemSecondaryAction>
         <IconButton onClick={handleDelete} disabled={props.playing} edge='end'>
