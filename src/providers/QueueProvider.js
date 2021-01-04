@@ -95,12 +95,16 @@ class QueueProvider extends Component {
 
     socket.on('send-vide-to-player', videoId => {
       this.addToList(videoId);
-    })
+    });
 
     socket.on('get-queue', () => {
       console.log('get-queu')
       socket.emit('send-queue', this.state)
-    })
+    });
+
+    socket.on('send-delete-item', index => {
+      this.removeFromList(index)
+    });
   }
 
   componentDidUpdate() {
