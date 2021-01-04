@@ -39,5 +39,9 @@ io.on('connection', (socket) => {
   socket.on('delete-item', item => {
     io.emit('send-delete-item', item.index)
   });
+
+  socket.on('select-item', item => {
+    io.emit('set-item', item.index)
+  })
 });
 
