@@ -14,7 +14,7 @@ class YTPlayer extends Component {
   }
 
   componentDidMount() {
-    const [currentVideo, setCurrentVideo] = this.context;
+    const {currentVideo, setCurrentVideo, setPlaying} = this.context;
     const {queue, setCurrentIndex, setEnded} = this.props.queueContext;
     let videoId = null;
     if(queue.queue.length ) {
@@ -35,7 +35,7 @@ class YTPlayer extends Component {
   }
 
   componentDidUpdate() {
-    const [currentVideo, setCurrentVideo] = this.context;
+    const {currentVideo, setCurrentVideo} = this.context;
     const { queue, setCurrentIndex, setEnded } = this.props.queueContext;
     if(queue.ended && ((queue.currentIndex === null && queue.queue.length === 1) || queue.currentIndex < queue.queue.length - 1)) {
       setCurrentIndex(queue.queue.length - 1);
@@ -43,9 +43,9 @@ class YTPlayer extends Component {
       setCurrentVideo({...queue.queue[queue.queue.length - 1]});
     }
 
-    if(currentVideo.hasOwnProperty('videoId')) {
-      if(currentVideo.hasOwnProperty('playing') && this.player.hasOwnProperty('playVideo')) {
-        if(currentVideo.playing && !queue.ended) {
+    if(currentVideo.data.hasOwnProperty('videoId')) {
+      if(currentVideo.data.hasOwnProperty('playing') && this.player.hasOwnProperty('playVideo')) {
+        if(currentVideo.data.playing && !queue.ended) {
           this.player.playVideo()
         } else {
           this.player.pauseVideo();
@@ -65,19 +65,19 @@ class YTPlayer extends Component {
   }
 
   onPlayerStateChange(event) {
-    const[currentVideo, setCurrentVideo] = this.context;
+    const {currentVideo, setCurrentVideo, setPlaying} = this.context;
     const { queue, setCurrentIndex, setEnded } = this.props.queueContext;
     switch (event.data) {
       case window['YT'].PlayerState.PLAYING:
-        setCurrentVideo({...currentVideo, playing: true})
+        setPlaying(true)
         if(this.player.getCurrentTime() < 1) {
-          if(!currentVideo.hasOwnProperty('title') || !currentVideo.hasOwnProperty('duration')) {
+          if(!currentVideo.data.hasOwnProperty('title') || !currentVideo.data.hasOwnProperty('duration')) {
             this.updateItemInfo();
           }
         }
         break;
       case window['YT'].PlayerState.PAUSED:
-        setCurrentVideo({...currentVideo, playing: false})
+        setPlaying(false)
         break;
       case window['YT'].PlayerState.ENDED:        
         
@@ -86,7 +86,7 @@ class YTPlayer extends Component {
           setCurrentVideo({...queue.queue[queue.currentIndex + 1]})
         } else if(queue.currentIndex === queue.queue.length - 1) {
           setEnded(true)
-          setCurrentVideo({...currentVideo, playing: false})
+          setCurrentVideo(false)
         }
         break;
       case window['YT'].PlayerState.CUED:
@@ -102,8 +102,8 @@ class YTPlayer extends Component {
   }
 
   loadAndPlay() {
-    const [ currentVideo ] = this.context;
-    this.player.cueVideoById({videoId: currentVideo.videoId});
+    const { currentVideo } = this.context;
+    this.player.cueVideoById({videoId: currentVideo.data.videoId});
   }
 }
 

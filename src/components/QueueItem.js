@@ -10,7 +10,7 @@ import { CurrentVideoContext } from '../providers/CurrentVideoProvider';
 
 const QueueItem = (props) => {
   const {queue, setCurrentIndex, removeFromList} = useContext(QueueContext);
-  const [ currentVideo, setCurrentVideo ] = useContext(CurrentVideoContext);
+  const { setCurrentVideo } = useContext(CurrentVideoContext);
 
   const handleDelete = () => {
     let newCurrentIndex = queue.currentIndex;

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PlayerControls = ({ queueContext }) => {
   const classes = useStyles();
-  const [currentVideo, setCurrentVideo] = useContext(CurrentVideoContext);
+  const {currentVideo, setCurrentVideo} = useContext(CurrentVideoContext);
   const [open, setOpen] = useState(false);
   const [videoIdToQueue, setvideIdToQueue] = useState('');
 

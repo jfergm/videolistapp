@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import { CssBaseline, createMuiTheme} from '@material-ui/core/';
 import Container from '@material-ui/core/Container';
@@ -13,6 +14,8 @@ import SettingsPage from './pages/SettingsPage';
 
 import { QueueProvider } from './providers/QueueProvider';
 import { CurrentVideoProvider } from './providers/CurrentVideoProvider';
+import { SocketContext } from './providers/SocketProvider';
+
 
 const theme = createMuiTheme({
   palette: {
@@ -46,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
+  const [socket] = useContext(SocketContext);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -55,7 +59,7 @@ function App() {
         </Grid>
         <Grid item className={classes.contentContainer}>
               <QueueProvider>
-                <CurrentVideoProvider >
+                <CurrentVideoProvider socket={socket}>
                   <Container className={classes.container}>
                     <Switch>
                       <Route path="/player" component={PlayerPage} />
