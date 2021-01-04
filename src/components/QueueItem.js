@@ -1,33 +1,13 @@
 import { useContext } from 'react';
 
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import IconButton from  '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider'
+import Divider from '@material-ui/core/Divider';
+import { ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import { QueueContext } from '../providers/QueueProvider';
 
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    width: '100%'
-  },
-  playing: {
-    width: '7%',
-  },
-  itemInfo: {
-    width: '86%'
-  },
-  delete: {
-    width: '7%'
-  }
-}));
-
 const QueueItem = (props) => {
-  const classes = useStyles();
-
   const {queue, setCurrentIndex, removeFromList} = useContext(QueueContext);
 
   const handleDelete = () => {
@@ -42,27 +22,19 @@ const QueueItem = (props) => {
 
   return (
     <>
-     <Divider />
-      <Grid container className={classes.container} justify="center" justify="space-between">
-        <Grid item className={classes.playing} >
-          { props.playing ? '>' : props.index + 1}
-        </Grid>
-        <Grid item className={classes.itemInfo}>
-          <Grid container direction="column" className={classes.container}>
-            <Grid item>
-              <Typography variant="subtitle1" color="secondary">{ props.item.title}</Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="subtitle1">{props.item.duration}</Typography>
-            </Grid>
-          </Grid>
-        </Grid> 
-        <Grid item className={classes.delete}>
-          <IconButton onClick={handleDelete} disabled={props.playing}>
-            <DeleteIcon />
-          </IconButton>
-        </Grid>
-      </Grid>
+     {props.index > 0 && <Divider />}
+    <ListItem button>
+      <ListItemText
+        primary={ props.item.title ? props.item.title : ' - '}
+        secondary={props.item.duration ? props.item.duration : ' - '}
+        primaryTypographyProps={{color: props.playing ? 'secondary' : 'white'}}
+      />
+      <ListItemSecondaryAction>
+        <IconButton onClick={handleDelete} disabled={props.playing} edge='end'>
+          <DeleteIcon />
+        </IconButton>
+      </ListItemSecondaryAction>
+    </ListItem>
     </>
   );
 }

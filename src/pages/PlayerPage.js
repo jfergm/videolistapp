@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,17 +14,26 @@ const useStyles = makeStyles((theme) => ({
   container: {
     margin: 0,
     padding: 0,
-    height: '100%'
+    height: '100%',
+    width: '100%',
   },
   player: {
-    width: '72%',
-    height: 'auto',
+    width: '70%',
+    height: '100%',
   },
   actionsContainer: {
-    flex: 1
+    width: '30%',
+    height: '100%',
   },
   list: {
-    flex: 1 
+    maxHeight: '90%',
+    width: '100%',
+    overflow: 'auto'
+
+  },
+  controls: {
+    width: '100%',
+    height: '10%',
   }
 }));
 
@@ -35,17 +44,17 @@ const PlayerPage = () => {
   return(
       <Grid container className={classes.container} >
         <Grid item className={classes.player}>
-          <YTPlayer queueContext = {queueContext}/>
+          {<YTPlayer queueContext = {queueContext}/>}
         </Grid>
         <Grid item className={classes.actionsContainer}>
-            <Grid container direction="column" className={classes.container}>
-              <Grid item>
-                <PlayerControls queueContext = {queueContext} />
-              </Grid>
-              <Grid item className={classes.list}>
-                <Queue />
-              </Grid>
+          <Grid container direction="column" className={classes.container}>
+            <Grid item className={classes.controls}>
+              <PlayerControls queueContext = {queueContext} />
             </Grid>
+            <Grid item className={classes.list}>
+              {<Queue />}
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
   );

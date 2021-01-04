@@ -21,25 +21,26 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
+  appContainer: {
+    overflow: 'hidden'
   },
   content: {
-    flexGrow: 1,
-    height: '100vh',
   },
   container: {
+    width: '100%',
+    height: '100%',
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     paddingLeft: 0,
     paddingRight: 0,
-    height: '100vh'
   },
   menuContainer: {
-    width: theme.spacing(12) + 1
+    width: '7%',
+    height: '100vh',
   },
   contentContainer: {
-    flex: 1,
+    width:'93%',
+    height: '100vh',
   }
 }));
 
@@ -48,13 +49,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Grid container >
+      <Grid container className={classes.appContainer}>
         <Grid item className={classes.menuContainer}>
           <Menu />
         </Grid>
         <Grid item className={classes.contentContainer}>
-          <div className={classes.root}>
-            <main className={classes.content}>
               <QueueProvider>
                 <CurrentVideoProvider >
                   <Container className={classes.container}>
@@ -66,11 +65,8 @@ function App() {
                   </Container>
                 </CurrentVideoProvider >
               </QueueProvider>
-            </main>
-         </div>
         </Grid>
       </Grid>
-
     </ThemeProvider>
   );
 }

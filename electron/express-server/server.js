@@ -35,5 +35,9 @@ io.on('connection', (socket) => {
   socket.on('send-video-id', link => {
     io.emit('send-vide-to-player', link)
   });
+
+  socket.on('delete-item', item => {
+    io.emit('send-delete-item', item.index)
+  });
 });
 
