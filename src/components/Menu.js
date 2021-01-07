@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import { IconButton, List, ListItem, ListItemIcon } from '@material-ui/core';
+
 import PlayButtonIcon from '@material-ui/icons/PlayArrow';
 import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
+
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
 import { Link } from 'react-router-dom';
+import DialogConfigDevice from './DialogConfigDevice';
 
 const drawerWidth = 240;
 
@@ -33,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Menu = () => {
   const classes = useStyles();
+  const [ dialogConfigDeviceOpen, setDialogConfigDeviceOpen] = useState(false);
+
+  const handleClose = () => {
+    console.log("xddxclose")
+    setDialogConfigDeviceOpen(false);
+  }
 
   return (
     <div className={classes.drawer}>
@@ -78,7 +88,25 @@ const Menu = () => {
           </Grid>
         </Grid>
       </List>
+      <Divider />
+      <List>
+        <Grid container alignContent="center" >
+          <Grid item>
+          <Box borderRadius="50%" >
+            <ListItem>
+              <IconButton size="medium" onClick={ () => setDialogConfigDeviceOpen(true)}>
+                <PhonelinkSetupIcon fontSize="large" />
+              </IconButton>
+            </ListItem>
+          </Box>
+          </Grid>
+        </Grid>
+      </List>
       </Paper>
+
+      <DialogConfigDevice isOpen={dialogConfigDeviceOpen} handler={handleClose}/>
+
+
     </div>
   );
 }
