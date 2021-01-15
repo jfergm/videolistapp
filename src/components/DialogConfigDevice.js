@@ -28,7 +28,7 @@ const DialogConfigDevice = ( { isOpen, handler } ) => {
 
   const getConfig = () => {
     const config = {
-      IPAddress: '10.0.0.2'
+      IPAddress: 'http://10.0.2.2:4000'
     }
 
     if(includeAdminKey) {
