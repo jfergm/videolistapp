@@ -14,7 +14,7 @@ class YTPlayer extends Component {
   }
 
   componentDidMount() {
-    const {currentVideo, setCurrentVideo, setPlaying} = this.context;
+    const { setCurrentVideo } = this.context;
     const {queue, setCurrentIndex, setEnded} = this.props.queueContext;
     let videoId = null;
     if(queue.queue.length ) {
@@ -92,11 +92,13 @@ class YTPlayer extends Component {
       case window['YT'].PlayerState.CUED:
         this.player.playVideo();
         break;
+      default:
+
     };
   };
 
   updateItemInfo() {
-    const {queue, setCurrentVideoInfo} = this.props.queueContext;
+    const { setCurrentVideoInfo } = this.props.queueContext;
     const videoData = this.player.getVideoData();
     setCurrentVideoInfo(videoData, this.player.getDuration())
   }

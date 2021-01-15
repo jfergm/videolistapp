@@ -22,7 +22,7 @@ const Queue = () => {
       {
         queue.queue.map( (item, i) => {
           return(
-            <QueueItem item={item} index={i} playing={i == queue.currentIndex }/>
+            <QueueItem item={item} index={i} playing={i === queue.currentIndex }/>
           )
         })
       }

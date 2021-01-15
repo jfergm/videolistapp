@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
-import { IconButton, List, ListItem, ListItemIcon } from '@material-ui/core';
+import { IconButton, List, ListItem } from '@material-ui/core';
 
 import PlayButtonIcon from '@material-ui/icons/PlayArrow';
 import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
@@ -14,8 +14,6 @@ import Box from '@material-ui/core/Box';
 
 import { Link } from 'react-router-dom';
 import DialogConfigDevice from './DialogConfigDevice';
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
 

@@ -8,7 +8,6 @@ import PlayerControls from '../components/PlayerControls';
 import Queue from '../components/Queue';
 
 import { QueueContext } from '../providers/QueueProvider';
-import { CurrentVideoContext } from '../providers/CurrentVideoProvider';
 
 const useStyles = makeStyles((theme) => ({
   container: {
