@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PlayerControls = ({ queueContext }) => {
   const classes = useStyles();
-  const {currentVideo, setCurrentVideo} = useContext(CurrentVideoContext);
+  const {currentVideo, setCurrentVideo, setPlaying} = useContext(CurrentVideoContext);
   const [open, setOpen] = useState(false);
   const [videoIdToQueue, setvideIdToQueue] = useState('');
 
@@ -69,6 +69,10 @@ const PlayerControls = ({ queueContext }) => {
     setvideIdToQueue('');
   };
 
+  const handlePlayPause = () => {
+    setPlaying(!currentVideo.data.playing)
+  }
+
   return(
     <Grid item className={classes.controls}>
       <Grid container justify="space-between">
@@ -78,9 +82,9 @@ const PlayerControls = ({ queueContext }) => {
           </IconButton>
         </Grid>
         <Grid item>
-          <IconButton className={classes.controlsButton} onClick={ () => setCurrentVideo({...currentVideo, playing: !currentVideo.playing})}>
-            { currentVideo.playing && (<PauseIcon color="secondary"/>)}
-            { !currentVideo.playing && (<PlayIcon color="secondary" />)}
+          <IconButton className={classes.controlsButton} onClick={ handlePlayPause }>
+            { currentVideo.data.playing && (<PauseIcon color="secondary"/>)}
+            { !currentVideo.data.playing && (<PlayIcon color="secondary" />)}
           </IconButton>
         </Grid>
         <Grid item>
