@@ -1,14 +1,17 @@
 const express = require('express');
 const socketio = require('socket.io');
 const cors = require('cors');
+const path = require("path");
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
+app.use('/static', express.static(path.join(__dirname, "../../build")));
 
 const PORT = process.env.PORT || 4000;
 
 const httpServer = app.listen(PORT, () => {
+
   console.log(`Server listening on port: ${PORT}`)
 });
 
@@ -19,6 +22,7 @@ const io = socketio(httpServer, {
 });
 
 io.on('connection', (socket) => {
+  console.log("connected")
   socket.on('init-queue', () => {
     console.log('init queue')
     io.emit('get-queue');
