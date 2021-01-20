@@ -12,16 +12,24 @@ export class SocketProvider extends Component {
 
   async componentDidMount() {
     let socket = await connect();
-    this.setState({
-      socket
-    })
+    let serverIpAddress;
+    socket.emit('getServerIpAddress');
+    socket.on('serverIPAddress', ipAddress => {
+      serverIpAddress = ipAddress;
+      this.setState({
+        socket,
+        serverIpAddress
+      });
+    });
+
+
   }
 
   render() {
 
     if(this.state.socket) {
       return (
-        <SocketContext.Provider value={[this.state.socket]}>
+        <SocketContext.Provider value={[this.state.socket, this.state.serverIpAddress]}>
           { this.props.children }
         </SocketContext.Provider>
       );
