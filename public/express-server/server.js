@@ -2,6 +2,7 @@ const express = require('express');
 const socketio = require('socket.io');
 const cors = require('cors');
 const path = require("path");
+const os = require('os');
 
 const app = express();
 
@@ -11,8 +12,7 @@ app.use('/static', express.static(path.join(__dirname, "../../build")));
 const PORT = process.env.PORT || 4000;
 
 const httpServer = app.listen(PORT, () => {
-
-  console.log(`Server listening on port: ${PORT}`)
+  console.log(`Server listening on port: ${PORT}`);
 });
 
 const io = socketio(httpServer, {
@@ -22,7 +22,12 @@ const io = socketio(httpServer, {
 });
 
 io.on('connection', (socket) => {
-  console.log("connected")
+
+  socket.on('getServerIpAddress', () => {
+    const serverIpAddress = getIpAddress();
+    socket.emit('serverIPAddress', serverIpAddress)
+  });
+
   socket.on('init-queue', () => {
     console.log('init queue')
     io.emit('get-queue');
@@ -49,3 +54,19 @@ io.on('connection', (socket) => {
   })
 });
 
+const getIpAddress = () => {
+  const ninterfaces = os.networkInterfaces();
+  const noInternalsIPV4 = [];
+  for(interface in ninterfaces) {
+    if(interface.indexOf('VirtualBox') >=0) {
+      continue;
+    }
+    ninterfaces[interface].map((i) => {
+      if(!i.internal && i.family === 'IPv4') {
+        noInternalsIPV4.push(i)
+      }
+    })
+    
+  }
+  return noInternalsIPV4[0].address
+}
