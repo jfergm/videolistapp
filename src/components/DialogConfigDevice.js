@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,14 +10,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import QRCode from 'qrcode.react';
 
+import { SocketContext } from '../providers/SocketProvider';
+
 const DialogConfigDevice = ( { isOpen, handler } ) => {
   const [ open, setOpen ] = useState(isOpen);
-  const [includeAdminKey, setIncludeAdminKey] = useState(false)
+  const [includeAdminKey, setIncludeAdminKey] = useState(false);
+  const [ , serverIpAddress ] = useContext(SocketContext)
   const handleClose = () => {
     handler();
     setOpen(false)
   }
-
   const handleIncludeAdminKey = (event) => {
     setIncludeAdminKey(event.target.checked);
   }
@@ -28,7 +30,7 @@ const DialogConfigDevice = ( { isOpen, handler } ) => {
 
   const getConfig = () => {
     const config = {
-      IPAddress: 'http://10.0.2.2:4000'
+      IPAddress: serverIpAddress
     }
 
     if(includeAdminKey) {
