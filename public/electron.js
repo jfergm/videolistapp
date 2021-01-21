@@ -16,7 +16,6 @@ function createWindow() {
       nodeIntegration: true
     }
   });
-
   win.maximize();
 
   win.loadURL(
@@ -29,6 +28,8 @@ function createWindow() {
   // Open the DevTools.
   if (isDev) {
     win.webContents.openDevTools({ mode: "detach" });
+  } else {
+    win.setMenuBarVisibility(false)
   }
 }
 
