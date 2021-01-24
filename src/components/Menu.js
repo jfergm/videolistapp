@@ -1,40 +1,35 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
-import { IconButton, List, ListItem } from '@material-ui/core';
-
 import PlayButtonIcon from '@material-ui/icons/PlayArrow';
 import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 
-import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import DialogConfigDevice from './DialogConfigDevice';
+import clsx from 'clsx'
 
-const useStyles = makeStyles((theme) => ({
-
-  drawer: {
-    width: theme.spacing(12) + 1,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    height: '100%'
+const useStyles = makeStyles((theme) => ({  
+  icon: {
+    width: '50%',
+    height: '50%',
   },
-  paperDrawer: {
-    overflowX: 'hidden',
-    height: '100%',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(12) + 1,
-    },
+  button: {
+    marginTop: '2%',
+    marginBottom: '2px'
+  },
+  active: {
+    color: theme.palette.secondary.main
   },
 }));
 
 const Menu = () => {
   const classes = useStyles();
+  const location = useLocation();
   const [ dialogConfigDeviceOpen, setDialogConfigDeviceOpen] = useState(false);
 
   const handleClose = () => {
@@ -42,71 +37,40 @@ const Menu = () => {
     setDialogConfigDeviceOpen(false);
   }
 
-  return (
-    <div className={classes.drawer}>
-      <Paper className={classes.paperDrawer}>
-      <List>
-        <Grid container alignContent="center" >
-          <Grid item>
-          <Box borderRadius="50%" >
-            <ListItem>
-              <IconButton size="medium" component={Link} to="/player">
-                <PlayButtonIcon fontSize="large" />
-              </IconButton>
-            </ListItem>
-          </Box>
-          </Grid>
-        </Grid>
-      </List>
-      <Divider />
-      <List>
-        <Grid container alignContent="center" >
-          <Grid item>
-          <Box borderRadius="50%" >
-            <ListItem>
-              <IconButton size="medium" component={Link} to="/playlists">
-                <PlaylistPlayIcon fontSize="large" />
-              </IconButton>
-            </ListItem>
-          </Box>
-          </Grid>
-        </Grid>
-      </List>
-      <Divider />
-      <List>
-        <Grid container alignContent="center" >
-          <Grid item>
-          <Box borderRadius="50%" >
-            <ListItem>
-              <IconButton size="medium" component={Link} to="/settings">
-                <SettingsIcon fontSize="large" />
-              </IconButton>
-            </ListItem>
-          </Box>
-          </Grid>
-        </Grid>
-      </List>
-      <Divider />
-      <List>
-        <Grid container alignContent="center" >
-          <Grid item>
-          <Box borderRadius="50%" >
-            <ListItem>
-              <IconButton size="medium" onClick={ () => setDialogConfigDeviceOpen(true)}>
-                <PhonelinkSetupIcon fontSize="large" />
-              </IconButton>
-            </ListItem>
-          </Box>
-          </Grid>
-        </Grid>
-      </List>
-      </Paper>
+  return(
+    <Box style={{width: '100%', height: '100%'}} boxShadow={3}> 
+      <div style={{height: '3%'}}>
+      
+      </div>
 
+      <Button  component={Link} to="player" className={clsx(classes.button, {
+          [classes.active]: location.pathname === '/player' && !dialogConfigDeviceOpen,
+        })}>
+        <PlayButtonIcon className={classes.icon} />
+      </Button>
+      
+      <Button component={Link} to="playlists" className={clsx(classes.button, {
+          [classes.active]: location.pathname === '/playlists' && !dialogConfigDeviceOpen,
+        })}>
+        <PlaylistPlayIcon className={classes.icon} />
+      </Button>
+      <Divider />
+
+      <Button component={Link} to="settings" className={clsx(classes.button, {
+          [classes.active]: location.pathname === '/settings' && !dialogConfigDeviceOpen,
+        })}>
+        <SettingsIcon className={classes.icon}/>      
+      </Button>
+
+      <Button className={clsx(classes.button, {
+          [classes.active]: dialogConfigDeviceOpen,
+        })} onClick={ () => setDialogConfigDeviceOpen(true)}>
+        <PhonelinkSetupIcon className={classes.icon} />
+      </Button>
+      <Divider />
       <DialogConfigDevice isOpen={dialogConfigDeviceOpen} handler={handleClose}/>
-
-
-    </div>
-  );
+    </Box>
+  )
 }
 
 export default Menu;
