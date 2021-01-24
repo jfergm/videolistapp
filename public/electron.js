@@ -8,10 +8,8 @@ require('./express-server/server.js');
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    minWidth: 850,
-    minHeight: 600,
+    minWidth: 900,
+    minHeight: 700,
     webPreferences: {
       nodeIntegration: true
     }
