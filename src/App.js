@@ -38,11 +38,11 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 0,
   },
   menuContainer: {
-    width: '7%',
+    width: '7.5%',
     height: '100vh',
   },
   contentContainer: {
-    width:'93%',
+    width:'92.5%',
     height: '100vh',
   }
 }));
@@ -55,7 +55,7 @@ function App() {
       <CssBaseline />
       <Grid container className={classes.appContainer}>
         <Grid item className={classes.menuContainer}>
-          <Menu />
+          <Menu/>
         </Grid>
         <Grid item className={classes.contentContainer}>
               <QueueProvider>
