@@ -11,7 +11,8 @@ import { QueueContext } from '../providers/QueueProvider';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: 0,
+    marginLeft: '1%',
+    marginRight: '1%',
     padding: 0,
     height: '100%',
     width: '100%',
