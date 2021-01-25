@@ -43,20 +43,20 @@ const Menu = () => {
       
       </div>
 
-      <Button  component={Link} to="player" className={clsx(classes.button, {
+      <Button  component={Link} to="/player" className={clsx(classes.button, {
           [classes.active]: location.pathname === '/player' && !dialogConfigDeviceOpen,
         })}>
         <PlayButtonIcon className={classes.icon} />
       </Button>
       
-      <Button component={Link} to="playlists" className={clsx(classes.button, {
+      <Button component={Link} to="/playlists" className={clsx(classes.button, {
           [classes.active]: location.pathname === '/playlists' && !dialogConfigDeviceOpen,
         })}>
         <PlaylistPlayIcon className={classes.icon} />
       </Button>
       <Divider />
 
-      <Button component={Link} to="settings" className={clsx(classes.button, {
+      <Button component={Link} to="/settings" className={clsx(classes.button, {
           [classes.active]: location.pathname === '/settings' && !dialogConfigDeviceOpen,
         })}>
         <SettingsIcon className={classes.icon}/>      
