@@ -21,15 +21,18 @@ export class SocketProvider extends Component {
         serverIpAddress
       });
     });
-
-
   }
 
   render() {
 
     if(this.state.socket) {
       return (
-        <SocketContext.Provider value={[this.state.socket, this.state.serverIpAddress]}>
+        <SocketContext.Provider value={{
+            socket: this.state.socket, 
+            serverIpAddress: this.state.serverIpAddress,
+            adminKey: this.state.serverIpAddress
+          }}
+          >
           { this.props.children }
         </SocketContext.Provider>
       );
