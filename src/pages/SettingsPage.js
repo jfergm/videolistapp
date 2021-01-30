@@ -29,27 +29,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const PlayerPage = () => {
+const SettingsPage = () => {
   const classes = useStyles();
 
-  const { serverIpAddress, adminKey } = useContext(SocketContext);
+  const { serverIpAddress, adminKey, setAdminKey } = useContext(SocketContext);
   const [values, setValues] = useState({
     password: '',
     showPassword: false,
     lockChangePassword: true,
-    adminKey: adminKey
+    key: adminKey
   });
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
 
   const handleClickLockChangePassword = () => {
-    setValues({ ...values, lockChangePassword: !values.lockChangePassword, });
+    const nk = adminKey || '';
+    setValues({ ...values, lockChangePassword: !values.lockChangePassword, key: nk});
 
   };
 
   const handleClickSave = () => {
-
+    if(values.key && values.key !== adminKey) {
+      setAdminKey(values.key)
+      setValues({...values, lockChangePassword: true})
+    }
   }
 
 
@@ -74,8 +78,8 @@ const PlayerPage = () => {
               type={values.showPassword ? 'text' : 'password'}
               color="secondary"
               disabled={values.lockChangePassword}
-              value={values.adminKey}
-              onChange={ (event) => { setValues({...values, adminKey: event.target.value})}}
+              value={values.key}
+              onChange={ (event) => { setValues({...values, key: event.target.value})}}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -111,4 +115,4 @@ const PlayerPage = () => {
   );
 };
 
-export default PlayerPage;
+export default SettingsPage;

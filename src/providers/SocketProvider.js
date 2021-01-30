@@ -37,7 +37,7 @@ export class SocketProvider extends Component {
             socket: this.state.socket, 
             serverIpAddress: this.state.serverIpAddress,
             adminKey: this.state.adminKey,
-            setAdminKey: this.setAdminKey.bind(this1)
+            setAdminKey: this.setAdminKey.bind(this)
           }}
           >
           { this.props.children }
