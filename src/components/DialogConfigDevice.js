@@ -15,7 +15,7 @@ import { SocketContext } from '../providers/SocketProvider';
 const DialogConfigDevice = ( { isOpen, handler } ) => {
   const [ open, setOpen ] = useState(isOpen);
   const [includeAdminKey, setIncludeAdminKey] = useState(false);
-  const { serverIpAddress } = useContext(SocketContext)
+  const { serverIpAddress, adminKey } = useContext(SocketContext)
   const handleClose = () => {
     handler();
     setOpen(false)
@@ -34,7 +34,7 @@ const DialogConfigDevice = ( { isOpen, handler } ) => {
     }
 
     if(includeAdminKey) {
-      config.adminKey = 'someAdminkey'
+      config.adminKey = adminKey
     }
     return JSON.stringify(config);
   }
