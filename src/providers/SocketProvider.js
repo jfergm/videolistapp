@@ -30,7 +30,7 @@ export class SocketProvider extends Component {
         <SocketContext.Provider value={{
             socket: this.state.socket, 
             serverIpAddress: this.state.serverIpAddress,
-            adminKey: this.state.serverIpAddress
+            adminKey: this.state.adminKey
           }}
           >
           { this.props.children }
