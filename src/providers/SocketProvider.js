@@ -23,6 +23,12 @@ export class SocketProvider extends Component {
     });
   }
 
+  setAdminKey(adminKey) {
+    this.setState({
+      adminKey
+    })
+  }
+
   render() {
 
     if(this.state.socket) {
@@ -30,7 +36,8 @@ export class SocketProvider extends Component {
         <SocketContext.Provider value={{
             socket: this.state.socket, 
             serverIpAddress: this.state.serverIpAddress,
-            adminKey: this.state.adminKey
+            adminKey: this.state.adminKey,
+            setAdminKey: this.setAdminKey.bind(this1)
           }}
           >
           { this.props.children }
