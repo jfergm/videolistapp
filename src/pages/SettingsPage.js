@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -6,11 +6,15 @@ import FilledInput from '@material-ui/core/FilledInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Lock from '@material-ui/icons/Lock';
+import Edit from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import { SocketContext } from '../providers/SocketProvider';
+import SnackbarContent  from '@material-ui/core/SnackbarContent';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,31 +31,51 @@ const useStyles = makeStyles((theme) => ({
 
 const PlayerPage = () => {
   const classes = useStyles();
+
+  const { serverIpAddress, adminKey } = useContext(SocketContext);
   const [values, setValues] = useState({
-    amount: '',
     password: '',
-    weight: '',
-    weightRange: '',
     showPassword: false,
+    lockChangePassword: true,
+    adminKey: adminKey
   });
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
 
+  const handleClickLockChangePassword = () => {
+    setValues({ ...values, lockChangePassword: !values.lockChangePassword, });
+
+  };
+
+  const handleClickSave = () => {
+
+  }
+
 
   return(
       <Grid container className={classes.container} justify="space-around">
         <Grid item>
-          <FormControl fullWidth className={classes.margin} variant="filled">
-            <InputLabel >Socket Server IP</InputLabel>
-            <FilledInput disabled color="secondary"/>
+        {!adminKey && <div className={classes.margin} style={{
+          width: '100%'
+        }}>
+          <SnackbarContent message="No adminKey" style={{
+            backgroundColor: "orange"
+          }}/>  
+        </div>}    
+        <FormControl fullWidth className={classes.margin} variant="filled">
+            <InputLabel color="secondary">Socket Server IP</InputLabel>
+            <FilledInput disabled color="secondary" value={serverIpAddress}/>
           </FormControl>
           <FormControl fullWidth className={classes.margin} variant="filled">
-            <InputLabel htmlFor="filled-adornment-amount" color="secondary">Admin key</InputLabel>
+            <InputLabel color="secondary">Admin key</InputLabel>
             <FilledInput
               id="filled-adornment-password"
               type={values.showPassword ? 'text' : 'password'}
               color="secondary"
+              disabled={values.lockChangePassword}
+              value={values.adminKey}
+              onChange={ (event) => { setValues({...values, adminKey: event.target.value})}}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -61,11 +85,27 @@ const PlayerPage = () => {
                   >
                     {values.showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickLockChangePassword}
+                    edge="end"
+                  >
+                    {values.lockChangePassword ? <Lock /> : <Edit />}
+                  </IconButton>
                 </InputAdornment>
               }
             />
           </FormControl>
-          <Button color="secondary" variant="outlined" className={classes.margin}>Save</Button>
+          <Button 
+            color="secondary" 
+            variant="outlined" 
+            className={classes.margin} 
+            fullWidth 
+            disabled={values.lockChangePassword}
+            onClick={handleClickSave}
+          >
+            Save
+          </Button>
         </Grid>
       </Grid>
   );
