@@ -17,7 +17,7 @@ class QueueProvider extends Component {
   }
 
   addToList(videoId) {
-    const [socket] = this.context;
+    const { socket } = this.context;
     const queue = this.state.queue.concat([{videoId}]);
     this.setState({
       queue
@@ -30,7 +30,7 @@ class QueueProvider extends Component {
   }
 
   removeFromList(removeIndex) {
-    const[ socket ] = this.context;
+    const { socket } = this.context;
     const queue = this.state.queue.reduce((acc, curr, index) => {
       if(index !== removeIndex) {
         acc.push(curr);
@@ -48,7 +48,7 @@ class QueueProvider extends Component {
   }
 
   setCurrentIndex(currentIndex) {
-    const [ socket ] = this.context;
+    const { socket } = this.context;
     this.setState({
       currentIndex
     });
@@ -60,7 +60,7 @@ class QueueProvider extends Component {
   }
 
   setEnded(ended) {
-    const [ socket ] = this.context;
+    const { socket } = this.context;
     this.setState({
       ended 
     });
@@ -72,7 +72,7 @@ class QueueProvider extends Component {
   }
 
   setCurrentVideoInfo(info, duration) {
-    const [ socket ] = this.context;
+    const { socket } = this.context;
     const queue = [...this.state.queue]
     const item = this.state.queue[this.state.currentIndex];
     item.title = info.title;
@@ -89,7 +89,7 @@ class QueueProvider extends Component {
   }
 
   componentDidMount() {
-    const [socket] = this.context;
+    const { socket } = this.context;
     socket.on('message', message => {
     });
 

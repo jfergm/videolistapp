@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const [socket] = useContext(SocketContext);
+  const {socket} = useContext(SocketContext);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

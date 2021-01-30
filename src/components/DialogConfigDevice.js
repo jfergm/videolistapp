@@ -15,7 +15,7 @@ import { SocketContext } from '../providers/SocketProvider';
 const DialogConfigDevice = ( { isOpen, handler } ) => {
   const [ open, setOpen ] = useState(isOpen);
   const [includeAdminKey, setIncludeAdminKey] = useState(false);
-  const [ , serverIpAddress ] = useContext(SocketContext)
+  const { serverIpAddress } = useContext(SocketContext)
   const handleClose = () => {
     handler();
     setOpen(false)
