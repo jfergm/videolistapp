@@ -60,6 +60,11 @@ io.on('connection', (socket) => {
     io.emit('adminKey-updated', adminKey);
   });
 
+  socket.on('check-AdminKey', key => {
+    let adminKeyMatch = (adminKey && key && (key === adminKey)) ? true : false;
+    socket.emit('adminKey-checked', adminKeyMatch);
+  })
+
 });
 
 const getIpAddress = () => {
