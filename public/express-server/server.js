@@ -21,6 +21,8 @@ const io = socketio(httpServer, {
   }
 });
 
+let adminKey= null;
+
 io.on('connection', (socket) => {
 
   socket.on('getServerIpAddress', () => {
@@ -51,7 +53,13 @@ io.on('connection', (socket) => {
 
   socket.on('select-item', item => {
     io.emit('set-item', item.index)
-  })
+  });
+
+  socket.on('adminKey-changed', newKey => {
+    adminKey = newKey;
+    io.emit('adminKey-updated', adminKey);
+  });
+
 });
 
 const getIpAddress = () => {
