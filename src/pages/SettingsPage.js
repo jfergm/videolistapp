@@ -63,7 +63,7 @@ const SettingsPage = () => {
         {!adminKey && <div className={classes.margin} style={{
           width: '100%'
         }}>
-          <SnackbarContent message="No adminKey" style={{
+          <SnackbarContent message="No admin key. If no admin key everyone have admin permissions on mobile app" style={{
             backgroundColor: "orange"
           }}/>  
         </div>}    
