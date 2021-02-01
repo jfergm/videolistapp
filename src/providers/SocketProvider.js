@@ -14,11 +14,14 @@ export class SocketProvider extends Component {
     let socket = await connect();
     let serverIpAddress;
     socket.emit('getServerIpAddress');
+    const adminKey = window.localStorage.getItem('adminKey');
+    socket.emit("adminKey-changed", adminKey);
     socket.on('serverIPAddress', ipAddress => {
       serverIpAddress = ipAddress;
       this.setState({
         socket,
-        serverIpAddress
+        serverIpAddress,
+        adminKey
       });
     });
   }
@@ -26,7 +29,9 @@ export class SocketProvider extends Component {
   setAdminKey(adminKey) {
     this.setState({
       adminKey
-    })
+    });
+    window.localStorage.setItem('adminKey', adminKey);
+    this.state.socket.emit("adminKey-changed", adminKey);
   }
 
   render() {
